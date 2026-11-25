@@ -1,0 +1,131 @@
+/* Shared styles: used by every page except privacy.html */
+
+:root {
+	--red: #ff0f47;
+	--green: #14ff7c;
+	--white: #fff4f7;
+	--ink: #08050a;
+	--plum: #230a1d;
+	--violet: #7a2cff;
+	--display: 'Dela Gothic One', 'Arial Black', sans-serif;
+	--body: 'Chakra Petch', 'Segoe UI', sans-serif;
+	color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--ink); }
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	color: var(--white);
+	font-family: var(--body);
+	font-weight: 500;
+	line-height: 1.5;
+	overflow-x: hidden;
+}
+
+/* ---------- background canvas ---------- */
+#static {
+	position: fixed;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	pointer-events: none;
+}
+
+/* ---------- header artwork ---------- */
+.face {
+	display: block;
+	width: 100%;
+	height: clamp(340px, 60vh, 660px);
+	-webkit-mask-image: linear-gradient(#000 84%, transparent);
+	mask-image: linear-gradient(#000 84%, transparent);
+	overflow: hidden;
+}
+
+.face .glow { filter: drop-shadow(0 0 10px rgba(255, 15, 71, 0.55)); }
+
+.blink {
+	transform: scaleY(var(--open, 1));
+	transition: transform 0.09s steps(3);
+}
+
+.shard-drift { animation: drift 5s steps(6) infinite alternate; }
+
+@keyframes drift {
+	to { transform: translate(var(--dx), var(--dy)); }
+}
+
+.grin { animation: grin 2.4s steps(1) infinite; }
+
+@keyframes grin {
+	0%, 100% { transform: translate(0, 0); }
+	46%      { transform: translate(5px, -4px); }
+	52%      { transform: translate(-3px, 3px); }
+	58%      { transform: translate(0, 0); }
+}
+
+h1 {
+	font-family: var(--display);
+	font-weight: 400;
+	font-size: clamp(2.6rem, 9vw, 4.8rem);
+	line-height: 1;
+	text-transform: uppercase;
+	margin: 0 0 16px;
+	transform: rotate(-3deg);
+}
+
+.title {
+	display: inline-block;
+	position: relative;
+	text-shadow:
+		-4px 0 0 var(--red),
+		7px 6px 0 var(--violet),
+		0 0 2px var(--ink),
+		0 0 18px var(--ink),
+		0 0 34px var(--ink);
+}
+
+.title em {
+	font-style: normal;
+	color: var(--green);
+}
+
+/* brief horizontal slice effect on the title */
+.title::after {
+	content: attr(data-text);
+	position: absolute;
+	inset: 0;
+	color: var(--green);
+	text-shadow: -3px 0 0 var(--red);
+	clip-path: inset(0 0 100% 0);
+	pointer-events: none;
+	animation: slice 6s steps(1) infinite;
+}
+
+@keyframes slice {
+	0%, 100% { clip-path: inset(0 0 100% 0); transform: none; }
+	90%      { clip-path: inset(18% 0 62% 0); transform: translateX(14px); }
+	92%      { clip-path: inset(66% 0 12% 0); transform: translateX(-12px); }
+	94%      { clip-path: inset(40% 0 46% 0); transform: translateX(7px); }
+	96%      { clip-path: inset(0 0 100% 0); transform: none; }
+}
+
+.hero-sub {
+	display: inline-block;
+	margin: 0;
+	padding: 6px 22px;
+	background: var(--white);
+	color: var(--ink);
+	font-weight: 700;
+	font-size: 1.05rem;
+	clip-path: polygon(3% 0, 100% 0, 97% 100%, 0 100%);
+}
+
+a:focus-visible {
+	outline: 3px solid var(--white);
+	outline-offset: 14px;
+}

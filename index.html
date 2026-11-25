@@ -1,309 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<title>Narwal LLC — Servers</title>
-				<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-					<style>
-						:root {
-						--primary: #00ccff;
-						--bg: #0b0b0b;
-						--card-bg: #111111;
-						--card-border: #1e1e1e;
-						--text: #c8c8c8;
-						--accent: #66d9ef;
-						--discord: #5865F2;
-						--discord-hover: #4752c4;
-						--green: #3ddc84;
-						}
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Narwal LLC — Servers</title>
+	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M1 16Q16-5 31 16Q16 37 1 16Z' fill='%2314ff7c'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%23ff0f47'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%2314ff7c'/%3E%3C/svg%3E">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Dela+Gothic+One&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="site.css">
+	<style>
+		main {
+			position: relative;
+			max-width: 920px;
+			margin: 0 auto;
+			padding: 0 max(24px, env(safe-area-inset-right)) 0 max(24px, env(safe-area-inset-left));
+		}
 
-						* { box-sizing: border-box; }
+		/* ---------- hero text ---------- */
+		.hero {
+			text-align: center;
+			margin: -108px 0 34px;
+			position: relative;
+		}
 
-						html {
-						background-color: #0b0b0b;
-						min-height: 100vh;
-						}
+		/* ---------- game cards ---------- */
+		.game-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+			gap: 36px 32px;
+		}
 
-						body {
-						color: var(--text);
-						font-family: 'Inter', sans-serif;
-						line-height: 1.6;
-						max-width: 860px;
-						margin: 0 auto;
-						padding: 48px 24px 80px;
-						}
+		.game-card {
+			display: flex;
+			position: relative;
+			isolation: isolate;
+			text-decoration: none;
+			color: var(--ink);
+			transition: transform 0.15s steps(3);
+		}
 
-						.site-header {
-						display: flex;
-						align-items: center;
-						justify-content: space-between;
-						margin-bottom: 52px;
-						}
+		/* offset copy behind each card */
+		.game-card::before,
+		.slab {
+			clip-path: polygon(0 5%, 38% 2.5%, 41% 0, 46% 2.2%, 100% 0, 97.5% 46%, 100% 51%, 98% 54%, 100% 94%, 62% 97%, 58% 100%, 54% 97.4%, 0 100%, 2.4% 62%, 0 57%, 2% 54%);
+		}
 
-						.logo-mark {
-						font-family: 'Space Mono', monospace;
-						font-size: 0.75em;
-						color: var(--primary);
-						letter-spacing: 3px;
-						text-transform: uppercase;
-						opacity: 0.7;
-						}
+		.game-card::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			z-index: -1;
+			background: var(--violet);
+			transform: translate(7px, 7px);
+			transition: transform 0.15s steps(3), background-color 0.15s;
+		}
 
-						.nav-link {
-						color: var(--accent);
-						text-decoration: none;
-						font-weight: 600;
-						font-size: 0.82em;
-						letter-spacing: 1px;
-						border: 1px solid rgba(102,217,239,0.3);
-						padding: 7px 16px;
-						border-radius: 99px;
-						transition: all 0.25s;
-						text-transform: uppercase;
-						}
+		.slab {
+			display: flex;
+			flex-direction: column;
+			flex: 1;
+			padding: 30px 30px 32px;
+			background: var(--red);
+		}
 
-						.nav-link:hover {
-						background-color: var(--accent);
-						color: #000;
-						border-color: var(--accent);
-						}
+		.card-eye {
+			display: block;
+			width: 150px;
+			height: 90px;
+			margin: 0 0 14px -6px;
+		}
 
-						.hero {
-						text-align: center;
-						margin-bottom: 56px;
-						}
+		.card-eye .blink { --open: 0.62; transform-origin: 0 0; }
 
-						h1 {
-						font-family: 'Inter', sans-serif;
-						font-weight: 700;
-						color: #fff;
-						font-size: clamp(2.2em, 5vw, 3.4em);
-						letter-spacing: -1px;
-						margin: 0 0 12px;
-						line-height: 1.1;
-						}
+		.game-label {
+			font-weight: 700;
+			font-size: 0.78rem;
+			letter-spacing: 0.22em;
+			text-transform: uppercase;
+		}
 
-						h1 span { color: var(--primary); }
+		.game-title {
+			font-family: var(--display);
+			font-weight: 400;
+			font-size: clamp(1.5rem, 4.4vw, 1.95rem);
+			line-height: 1.15;
+			margin: 4px 0 10px;
+			display: flex;
+			align-items: center;
+		}
 
-						.hero-sub {
-						font-size: 1.05em;
-						color: #888;
-						max-width: 480px;
-						margin: 0 auto;
-						}
+		.game-desc {
+			margin: 0 0 16px;
+			font-weight: 600;
+			flex: 1;
+		}
 
-						.game-grid {
-						display: grid;
-						grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-						gap: 20px;
-						margin-bottom: 20px;
-						}
+		.ip-chip {
+			align-self: flex-start;
+			background: var(--ink);
+			color: var(--green);
+			padding: 5px 16px 5px 12px;
+			font-weight: 600;
+			letter-spacing: 0.04em;
+			clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+		}
 
-						.game-card {
-						background: var(--card-bg);
-						border: 1px solid var(--card-border);
-						border-radius: 20px;
-						padding: 36px 32px;
-						text-decoration: none;
-						color: inherit;
-						display: flex;
-						flex-direction: column;
-						gap: 0;
-						transition: border-color 0.25s, transform 0.2s;
-						position: relative;
-						overflow: hidden;
-						}
+		.game-arrow {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-top: 22px;
+			padding: 12px 16px;
+			background: var(--ink);
+			color: var(--white);
+			font-weight: 700;
+			letter-spacing: 0.14em;
+			text-transform: uppercase;
+			font-size: 0.86rem;
+			transition: background-color 0.15s, color 0.15s;
+		}
 
-						.game-card::before {
-						content: '';
-						position: absolute;
-						inset: 0;
-						border-radius: 20px;
-						opacity: 0;
-						transition: opacity 0.3s;
-						}
+		.arrow-icon {
+			width: 44px;
+			height: 18px;
+			transition: transform 0.15s steps(3);
+		}
 
-						.game-card.minecraft::before {
-						background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(61, 220, 132, 0.06), transparent);
-						}
+		.game-card:hover,
+		.game-card:focus-visible { transform: translateY(-6px) rotate(-0.8deg); }
+		.game-card:nth-child(even):hover,
+		.game-card:nth-child(even):focus-visible { transform: translateY(-6px) rotate(0.8deg); }
 
-						.game-card.ss14::before {
-						background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0, 204, 255, 0.06), transparent);
-						}
+		.game-card:hover::before,
+		.game-card:focus-visible::before { background: var(--green); transform: translate(12px, 12px); }
 
-						.game-card:hover { border-color: #2e2e2e; transform: translateY(-2px); }
-						.game-card:hover::before { opacity: 1; }
-						.game-card.minecraft:hover { border-color: rgba(61, 220, 132, 0.35); }
-						.game-card.ss14:hover      { border-color: rgba(0, 204, 255, 0.35); }
+		.game-card:hover .card-eye .blink,
+		.game-card:focus-visible .card-eye .blink { --open: 1; }
 
-						.game-icon {
-						width: 56px;
-						height: 56px;
-						border-radius: 14px;
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						font-size: 1.6em;
-						margin-bottom: 20px;
-						}
+		.game-card:hover .game-arrow,
+		.game-card:focus-visible .game-arrow { background: var(--green); color: var(--ink); }
 
-						.game-icon.minecraft {
-						background: rgba(61, 220, 132, 0.1);
-						border: 1px solid rgba(61, 220, 132, 0.2);
-						}
+		.game-card:hover .arrow-icon,
+		.game-card:focus-visible .arrow-icon { transform: translateX(6px); }
 
-						.game-icon.ss14 {
-						background: rgba(0, 204, 255, 0.1);
-						border: 1px solid rgba(0, 204, 255, 0.2);
-						}
+		/* ---------- silhouette + footer ---------- */
+		.figure {
+			display: block;
+			width: 190px;
+			height: 380px;
+			margin: 26px auto 0;
+			filter: drop-shadow(0 0 9px rgba(255, 15, 71, 0.7));
+			-webkit-mask-image: linear-gradient(#000 68%, transparent 98%);
+			mask-image: linear-gradient(#000 68%, transparent 98%);
+			animation: hover-float 4s steps(10) infinite alternate;
+		}
 
-						.game-label {
-						font-family: 'Space Mono', monospace;
-						font-size: 0.65em;
-						letter-spacing: 2px;
-						text-transform: uppercase;
-						margin-bottom: 6px;
-						}
+		@keyframes hover-float {
+			to { transform: translateY(-10px); }
+		}
 
-						.game-label.minecraft { color: rgba(61, 220, 132, 0.7); }
-						.game-label.ss14      { color: rgba(0, 204, 255, 0.7); }
+		.site-footer {
+			text-align: center;
+			padding: 8px 0 36px;
+		}
 
-						.game-title {
-						font-size: 1.35em;
-						font-weight: 700;
-						color: #fff;
-						margin: 0 0 6px;
-						letter-spacing: -0.3px;
-						}
+		.site-footer a {
+			color: #b9a4b4;
+			font-size: 0.85rem;
+			letter-spacing: 0.1em;
+			text-decoration: none;
+		}
 
-						.game-desc {
-						font-size: 0.9em;
-						color: #666;
-						margin: 0;
-						line-height: 1.5;
-						}
+		.site-footer a:hover { color: var(--green); }
 
-						.ip-chip {
-						display: inline-block;
-						font-family: 'Space Mono', monospace;
-						font-size: 0.72em;
-						padding: 3px 10px;
-						border-radius: 6px;
-						margin-top: 6px;
-						}
+		.site-footer a:focus-visible { outline-offset: 4px; }
 
-						.ip-chip.minecraft {
-						background: rgba(61, 220, 132, 0.08);
-						border: 1px solid rgba(61, 220, 132, 0.2);
-						color: rgba(61, 220, 132, 0.8);
-						}
+		@media (max-width: 560px) {
+			.face { height: 340px; }
+			.hero-sub { font-size: 0.92rem; }
+			.hero { margin-top: -64px; }
+		}
+	</style>
+</head>
+<body>
 
-						.ip-chip.ss14 {
-						background: rgba(0, 204, 255, 0.08);
-						border: 1px solid rgba(0, 204, 255, 0.2);
-						color: rgba(0, 204, 255, 0.8);
-						}
+	<canvas id="static" aria-hidden="true"></canvas>
 
-						.game-arrow {
-						display: flex;
-						align-items: center;
-						gap: 8px;
-						font-size: 0.82em;
-						font-weight: 600;
-						letter-spacing: 0.5px;
-						text-transform: uppercase;
-						transition: gap 0.2s;
-						margin-top: 20px;
-						padding-top: 20px;
-						border-top: 1px solid #1a1a1a;
-						}
+	<svg class="face" id="face" viewBox="0 0 1200 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
 
-						.game-arrow.minecraft { color: rgba(61, 220, 132, 0.6); }
-						.game-arrow.ss14      { color: rgba(0, 204, 255, 0.6); }
-
-						.game-card:hover .game-arrow { gap: 12px; }
-
-						.arrow-icon {
-						width: 16px;
-						height: 16px;
-						transition: transform 0.2s;
-						}
-
-						.game-card:hover .arrow-icon { transform: translateX(2px); }
-
-						.site-footer {
-						text-align: center;
-						margin-top: 48px;
-						padding-top: 24px;
-						border-top: 1px solid var(--card-border);
-						}
-
-						.site-footer a {
-						font-size: 0.78em;
-						color: #444;
-						text-decoration: none;
-						letter-spacing: 0.5px;
-						transition: color 0.2s;
-						}
-
-						.site-footer a:hover { color: #888; }
-					</style>
-				</head>
-	<body>
-
-		<header class="site-header">
-			<span class="logo-mark" style="visibility:hidden;">placeholder</span>
-		</header>
-
+	<main>
 		<div class="hero">
 			<h1>
-				Pick your <span>game</span>
+				<span class="title" data-text="Pick your game">Pick your <em>game</em></span>
 			</h1>
 			<p class="hero-sub">Choose a server to get the setup guide.</p>
 		</div>
 
 		<div class="game-grid">
 
-			<a href="paper-minecraft.html" class="game-card minecraft">
-				<div class="game-icon minecraft">⛏️</div>
-				<div>
-					<div class="game-label minecraft">Java + Bedrock</div>
-					<div class="game-title">Minecraft</div>
-					<p class="game-desc">Paper server on the latest Minecraft. Join from Java or Bedrock.</p>
-					<span class="ip-chip minecraft">jenna.narwal.llc</span>
-				</div>
-				<div class="game-arrow minecraft">
-					Get setup guide
-					<svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-						<line x1="5" y1="12" x2="19" y2="12"/>
-						<polyline points="12 5 19 12 12 19"/>
-					</svg>
-				</div>
+			<a href="paper-minecraft.html" class="game-card">
+				<span class="slab">
+					<svg class="card-eye" data-icon="pickaxe" viewBox="-75 -45 150 90" aria-hidden="true"></svg>
+					<span class="game-label">Java + Bedrock</span>
+					<span class="game-title">Minecraft</span>
+					<span class="game-desc">Paper server on the latest Minecraft. Join from Java or Bedrock.</span>
+					<span class="ip-chip">jenna.narwal.llc</span>
+					<span class="game-arrow">
+						Get setup guide
+						<svg class="arrow-icon" viewBox="0 0 44 18" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
+							<path d="M0 12 L9 5 L15 12 L24 5 L30 9 L42 9 M35 2 L42 9 L35 16"/>
+						</svg>
+					</span>
+				</span>
 			</a>
 
-			<a href="spacestation14.html" class="game-card ss14">
-				<div class="game-icon ss14">🚀</div>
-				<div>
-					<div class="game-label ss14">Roleplay</div>
-					<div class="game-title">Space Station 14</div>
-					<p class="game-desc">Free to play via Steam. Jump in and survive the chaos of the station.</p>
-					<span class="ip-chip ss14">ss14.narwal.llc</span>
-				</div>
-				<div class="game-arrow ss14">
-					Get setup guide
-					<svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-						<line x1="5" y1="12" x2="19" y2="12"/>
-						<polyline points="12 5 19 12 12 19"/>
-					</svg>
-				</div>
+			<a href="spacestation14.html" class="game-card">
+				<span class="slab">
+					<svg class="card-eye" data-icon="rocket" viewBox="-75 -45 150 90" aria-hidden="true"></svg>
+					<span class="game-label">Roleplay</span>
+					<span class="game-title">Space Station 14</span>
+					<span class="game-desc">Free to play via Steam. Jump in and survive the chaos of the station.</span>
+					<span class="ip-chip">ss14.narwal.llc</span>
+					<span class="game-arrow">
+						Get setup guide
+						<svg class="arrow-icon" viewBox="0 0 44 18" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
+							<path d="M0 12 L9 5 L15 12 L24 5 L30 9 L42 9 M35 2 L42 9 L35 16"/>
+						</svg>
+					</span>
+				</span>
 			</a>
 
 		</div>
 
-		<footer class="site-footer">
-			<a href="privacy.html">Privacy Policy</a>
-		</footer>
+		<!-- decorative figure -->
+		<svg class="figure" viewBox="0 0 190 380" fill="#ff0f47" aria-hidden="true">
+			<path d="M95 0 L100 26 L97 38 C112 42 122 48 124 60 C118 66 112 72 109 90 C106 108 104 118 108 136 C116 160 118 176 113 200 L106 262 L108 282 L103 340 L104 380 L100 380 L97 338 L99 282 L96 262 L95 192 L94 262 L91 282 L93 338 L90 380 L86 380 L87 340 L82 282 L84 262 L77 200 C72 176 74 160 82 136 C86 118 84 108 81 90 C78 72 72 66 66 60 C68 48 78 42 93 38 L90 26 Z"/>
+			<path d="M78 2L90 24L83 20ZM112 6L101 28L108 24ZM68 24L86 34L76 34ZM124 22L104 36L116 34Z"/>
+			<!-- arms and claws -->
+			<path d="M69 54 L74 66 L58 118 L47 170 L40 196 L45 199 L49 214 L43 207 L42 222 L38 207 L34 220 L33 203 L24 213 L29 198 L19 200 L33 188 L41 140 L52 108 Z"/>
+			<path d="M121 54 L116 66 L132 118 L143 170 L150 196 L145 199 L141 214 L147 207 L148 222 L152 207 L156 220 L157 203 L166 213 L161 198 L171 200 L157 188 L149 140 L138 108 Z"/>
+		</svg>
+	</main>
 
-	</body>
+	<footer class="site-footer">
+		<a href="privacy.html">Privacy Policy</a>
+	</footer>
+
+	<script src="site.js"></script>
+
+</body>
 </html>
